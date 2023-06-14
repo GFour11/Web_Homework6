@@ -1,0 +1,43 @@
+DROP TABLE IF EXISTS group_number;
+CREATE TABLE group_number (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_number VARCHAR(10) UNIQUE NOT NULL
+);
+
+DROP TABLE IF EXISTS students;
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name_surname VARCHAR(50) UNIQUE NOT NULL,
+    FOREIGN KEY (name_surname) REFERENCES group_number (id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS teachers;
+CREATE TABLE teachers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher VARCHAR(50) UNIQUE NOT NULL
+);
+
+DROP TABLE IF EXISTS subjects;
+CREATE TABLE subjects(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+     subject VARCHAR(50)UNIQUE NOT NULL,
+     FOREIGN KEY (subject) REFERENCES teachers (id)
+       ON DELETE CASCADE
+       ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS results;
+CREATE TABLE results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_name VARCHAR(50),
+    date_of DATE NOT NULL,
+    subject VARCHAR(50),
+    result INTEGER NOT NULL,
+    FOREIGN KEY (student_name) REFERENCES students (name_surname)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    FOREIGN KEY (subject) REFERENCES subjects (subject)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE);
