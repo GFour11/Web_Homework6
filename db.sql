@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS students;
 CREATE TABLE students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name_surname VARCHAR(50) UNIQUE NOT NULL,
-    FOREIGN KEY (name_surname) REFERENCES group_number (id)
+    group_number VARCHAR(10),
+    FOREIGN KEY (group_number) REFERENCES group_number (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
@@ -23,7 +24,8 @@ DROP TABLE IF EXISTS subjects;
 CREATE TABLE subjects(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
      subject VARCHAR(50)UNIQUE NOT NULL,
-     FOREIGN KEY (subject) REFERENCES teachers (id)
+     teacher_id INTEGER NOT NULL,
+     FOREIGN KEY (teacher_id) REFERENCES teachers (id)
        ON DELETE CASCADE
        ON UPDATE CASCADE
 );
@@ -31,13 +33,10 @@ CREATE TABLE subjects(
 DROP TABLE IF EXISTS results;
 CREATE TABLE results (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_name VARCHAR(50),
-    date_of DATE NOT NULL,
-    subject VARCHAR(50),
+    student_id VARCHAR(50),
+    subject_id VARCHAR(50),
     result INTEGER NOT NULL,
-    FOREIGN KEY (student_name) REFERENCES students (name_surname)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    FOREIGN KEY (subject) REFERENCES subjects (subject)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE);
+    date_of DATE NOT NULL,
+    FOREIGN KEY (subject_id) REFERENCES subjects (id),
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
